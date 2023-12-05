@@ -1,0 +1,49 @@
+[
+    {
+       "roll_number": 1,
+       "st_name": "elen",
+       "mark": 250,
+       "subject": "TinyDB",
+       "address": "delhi"
+    },
+    {
+       "roll_number": 2,
+       "st_name": "Ram",
+       "mark": [
+          250,
+          280
+       ],
+       "subject": [
+          "TinyDB",
+          "MySQL"
+       ],
+       "address": "delhi"
+    },
+    {
+       "roll_number": 3,
+       "st_name": "kevin",
+       "mark": [
+          180,
+          200
+       ],
+       "subject": [
+          "oracle",
+          "sql"
+       ],
+       "address": "keral"
+    },
+    {
+       "roll_number": 4,
+       "st_name": "lakan",
+       "mark": 200,
+       "subject": "MySQL",
+       "address": "mumbai"
+    },
+    {
+       "roll_number": 5,
+       "st_name": "karan",
+       "mark": 275,
+       "subject": "TinyDB",
+       "address": "benglore"
+    }
+ ]
