@@ -1,16 +1,17 @@
 """ Module containing Matches class """
+from player import Player
 
 
-class Matches:
+class Match:
     """
     Class containing Matches' details
     """
 
-    def __init__(self, player_1, player_2):
+    def __init__(self, player_1: Player, player_2: Player):
         """
         Constructor
         """
-        self.match = (player_1, player_2)
+        self.match = ([player_1, player_1.get_score()], [player_2, player_2.score])
 
     def __str__(self) -> str:
         """

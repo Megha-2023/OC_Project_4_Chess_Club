@@ -1,16 +1,17 @@
 """ Module containing Rounds class """
+from match import Match
 
 
-class Rounds:
+class Round:
     """
     Class containing Rounds' details
     """
-    def __init__(self, name, matches_list, start_date, end_date):
+    def __init__(self, name: str, match_list: list[Match], start_date: str, end_date: str):
         """
         Constructor
         """
         self.round_name = name
-        self.matches_list = matches_list
+        self.match_list = match_list
         self.round_start_date = start_date
         self.round_end_date = end_date
 
