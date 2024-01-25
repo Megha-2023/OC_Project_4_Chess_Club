@@ -1,14 +1,13 @@
 """Module containing Data class to insert/retrieve data to/from json file"""
-
 import os
 from tinydb import TinyDB
-from player import Player
-from tournament import Tournament
+from Models.player import Player
+from Models.tournament import Tournament
 
 FILENAME = os.getcwd() + r"\data\Castle_Chess.json"
 
 
-class Data:
+class FileData:
     db = TinyDB(FILENAME)
     players_table = db.table('players')
     tournament_table = db.table('tournament')
@@ -25,7 +24,8 @@ class Data:
     def retrive_all_players_data(self):
         """ Method to get all players' details from json file"""
         
-        return self.players_table.all()
+        for item in self.players_table.all():
+            print(item)
 
     def add_tournament_to_file(self, new_tournament: Tournament):
         """ Method to add tournament's details to json file"""
@@ -36,14 +36,9 @@ class Data:
                     "round_list": new_tournament.round_list, "player_list": new_tournament.player_list,
                     "prev_round": new_tournament.prev_round, "number_of_rounds": new_tournament.number_of_rounds}
         self.tournament_table.insert(data_str)
+        print("Tournament details successfully saved to file!!!")
     
-    def retrive_all_tournament_data(self)
+    def retrive_all_tournament_data(self):
         """ Method to get all tournaments' details from json file"""
 
         return self.tournament_table.all()
-
-
-player1 = Player("TS12345", "Disilva", "Anthony", "12/5/1989", 25, 5)
-obj = Data()
-obj.add_player_to_file(player1)
-obj.retriev_all_players_data()

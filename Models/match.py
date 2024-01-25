@@ -1,5 +1,5 @@
 """ Module containing Matches class """
-from player import Player
+from Models.player import Player
 
 
 class Match:

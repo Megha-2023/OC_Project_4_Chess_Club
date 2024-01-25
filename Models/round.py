@@ -1,5 +1,5 @@
 """ Module containing Rounds class """
-from match import Match
+from Models.match import Match
 
 
 class Round:
