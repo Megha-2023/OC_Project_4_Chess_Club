@@ -1,6 +1,6 @@
 """Module containing Data class to insert/retrieve data to/from json file"""
 import os
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 from Models.player import Player
 from Models.tournament import Tournament
 
@@ -42,3 +42,14 @@ class FileData:
         """ Method to get all tournaments' details from json file"""
 
         return self.tournament_table.all()
+    
+    def retrive_selected_tournament(self, tournament_name: str):
+        user_query = Query()
+        retrived_data = self.tournament_table.search(user_query.tournament_name == tournament_name)
+        return retrived_data
+    
+    def retrive_selected_players(self, tournament_name: str):
+        user_query = Query()
+        retrived_data = self.tournament_table.search(user_query.tournament_name == tournament_name)
+        return retrived_data[0]['player_list']
+    

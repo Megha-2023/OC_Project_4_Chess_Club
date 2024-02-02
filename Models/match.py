@@ -11,7 +11,7 @@ class Match:
         """
         Constructor
         """
-        self.match = ([player_1, player_1.get_score()], [player_2, player_2.score])
+        self.match = ([player_1, player_1.get_score()], [player_2, player_2.get_score()])
 
     def __str__(self) -> str:
         """

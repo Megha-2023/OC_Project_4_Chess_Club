@@ -5,7 +5,7 @@ class Player:
     """
     Class containing players' details
     """
-    def __init__(self, national_chess_id: str, last_name: str, first_name: str, dob: str, score: int = 0, rank: int = 0):
+    def __init__(self, national_chess_id: str, last_name: str, first_name: str, dob: str, score: int = 0):
         """
         Constructor
         """
@@ -14,7 +14,6 @@ class Player:
         self.first_name = first_name
         self.dob = dob
         self.score = score
-        self.rank = rank
 
     def __str__(self) -> str:
         """
