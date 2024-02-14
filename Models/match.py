@@ -11,11 +11,12 @@ class Match:
         """
         Constructor
         """
-        self.match = ([player_1, player_1.get_score()], [player_2, player_2.get_score()])
+        self.match = ([player_1.get_code(), player_1.get_score()], [player_2.get_code(), player_2.get_score()])
 
     def __str__(self) -> str:
         """
         Function returns object attributes
         """
-        return {self.match[0].first_name} + " = " + {self.match[0].score} + ", " + {self.match[1].first_name} \
-                + " = " + {self.match[1].score}
+        return f"{self.match[0][0].first_name}" + " vs " +  f"{self.match[1][0].first_name}"
+    
+
