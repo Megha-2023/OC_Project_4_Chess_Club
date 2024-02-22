@@ -5,6 +5,7 @@ from Controller.maincontroller import MainController
 from Controller.tourna_controller import TournamentController
 from Controller.playercontroller import PlayerController
 
+
 def main():
     view_obj = View()
     data_obj = FileData()
