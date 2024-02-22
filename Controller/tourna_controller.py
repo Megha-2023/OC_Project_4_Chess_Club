@@ -16,7 +16,7 @@ class TournamentController:
     def create_tournament(self):
         self.tournament = self.get_tournament_data()
         self.data.add_tournament_to_file(self.tournament)
-        
+
     def get_tournament_data(self):
         try:
             user_input = self.view.prompt_for_tournament()
@@ -34,14 +34,14 @@ class TournamentController:
         if not self.tournament_players_list:
             print(f"No Players Selected for Tournament {tournament_name}.\n Enter Players")
             self.tournament_players_list = self.creat_tournament_players(tournament_name)
-        
+
         self.prev_paired_player_list = []
         current_round = "0"
         tournament_obj = Tournament(tournament_name, tournament_place, tournament_start_date, tournament_end_date,
                                     self.round_list, self.tournament_players_list, self.prev_paired_player_list,
                                     current_round, number_of_rounds)
         return tournament_obj
-    
+
     def select_tournament(self):
         all_tournaments = self.data.get_all_tournament_data()
         print("List of existing Tournaments:\n")
@@ -49,9 +49,9 @@ class TournamentController:
             print(f"{item['tournament_name']} at {item['tournament_place']}")
         selected_tournament = self.view.prompt_select_tournament()
         return selected_tournament
-        
-    def creat_tournament_players(self, tournament_name):  # new
-        
+
+    def creat_tournament_players(self, tournament_name):
+
         print("Tournament must have at least 8 players!")
         answer = "Y"
         i = 0
@@ -61,9 +61,9 @@ class TournamentController:
             if answer == "N" or answer == "n":
                 break
             new_player_obj = self.player_controller_obj.get_player_data()
-            
+
             player_dict = new_player_obj.__dict__
-            
+
             temp_dict["player_nid"] = player_dict["national_chess_id"]
             temp_dict["score"] = player_dict["score"]
 
@@ -71,8 +71,8 @@ class TournamentController:
             i += 1
         self.data.update_tournament_players(tournament_name, self.tournament_players_list, [])
         return self.tournament_players_list
-    
-    def create_match_obj(self, player_score_list):  # new
+
+    def create_match_obj(self, player_score_list):
         player_obj_list = []
         match_obj_list = []
         temp_score_list = []
@@ -85,22 +85,22 @@ class TournamentController:
             player_obj_list.append(player_obj)
             temp_score_list.append(player_score_list[k]["score"])
 
-        # then create match objects from player's object list and score list    
+        # then create match objects from player's object list and score list
         for i in range(0, len(player_obj_list), 2):
             player_1 = player_obj_list[i]
             player_2 = player_obj_list[i+1]
             score_1 = temp_score_list[i]
             score_2 = temp_score_list[i+1]
-            
+
             # Create Match class object
             match_obj = Match(player_1, score_1, player_2, score_2)
             match_obj_list.append(match_obj.__dict__)
-        
+
         return match_obj_list
-    
-    def add_new_score_to_prev(self, paired_player_list, input_player_score_list): # new
+
+    def add_new_score_to_prev(self, paired_player_list, input_player_score_list):
         new_list = []
-        
+
         for i in range(len(paired_player_list)):
             temp_dict = {}
             temp_dict["player_nid"] = paired_player_list[i]["player_nid"]
@@ -108,8 +108,8 @@ class TournamentController:
             print(temp_dict["score"])
             new_list.append(temp_dict)
         return new_list
-    
-    def update_prev_paired_players(self, paired_player_list): # new
+
+    def update_prev_paired_players(self, paired_player_list):
         temp_list = []
         for i in range(0, len(paired_player_list), 2):
             player1 = paired_player_list[i][0]
@@ -117,19 +117,19 @@ class TournamentController:
             new_tuple = (player1, player2)
             temp_list.append(new_tuple)
         return temp_list
-    
+
     def start_round(self, tournament_name, round_number):  # -------------------ROUND 1 ------------------
-        
+
         # Get round_list from json file if empty
         if not self.round_list:
             self.round_list = self.data.get_rounds_for_tournament(tournament_name)
-        
+
         # get tournament players list each time
         self.tournament_players_list = self.data.get_tournament_players(tournament_name)
 
         # get previously paried players in this tournament
         self.previous_paired_players_list = self.data.get_prev_paired_player_list(tournament_name)
-        
+
         # for first round:
         if round_number == 1:
             # pair randomly returns list of dict
@@ -140,10 +140,10 @@ class TournamentController:
             player_tuple_list, score_tuple_list = self.player_controller_obj.pair_players(
                 self.tournament_players_list, self.previous_paired_players_list)
             paired_player_list = self.player_controller_obj.merge_list_to_dict(player_tuple_list, score_tuple_list)
-        
+
         # update set of previously paired players in previous matches
         self.previous_paired_players_list.append(player_tuple_list)
-        
+
         # print("playing")
         print(f"Round{round_number} is being played")
         # update round_start_date
@@ -156,13 +156,13 @@ class TournamentController:
 
         # add current score to prev score
         updated_player_score_list = self.add_new_score_to_prev(paired_player_list, input_player_score_list)
-        
+
         # creat match obj (from tour_playe_list_of dict)
         match_obj_list = self.create_match_obj(updated_player_score_list)
-        
+
         # sort players and save tourn_player_list
         self.tournament_players_list = self.player_controller_obj.sort_players(updated_player_score_list)
-        
+
         # update round_end_date and round_number
         round_end_date = str(datetime.now())
         current_round = round_number
@@ -173,12 +173,12 @@ class TournamentController:
         new_round_dict["match_list"] = match_obj_list
         new_round_dict["round_start_date"] = round_start_date
         new_round_dict["round_end_date"] = round_end_date
-        
+
         round_obj = self.data.create_round_obj(new_round_dict)
-        
+
         # append new object to existing round list
         self.round_list.append(round_obj.__dict__)
-        
+
         # save updated round_list to json file
         print(self.round_list)
         print(self.tournament_players_list)
@@ -186,10 +186,3 @@ class TournamentController:
         self.data.update_tournament_players(tournament_name, self.tournament_players_list,
                                             self.previous_paired_players_list)
         self.data.update_tournament_rounds(tournament_name, self.round_list, current_round)
-        
-    
-    
-        
-    
-    
-

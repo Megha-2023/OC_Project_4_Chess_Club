@@ -17,6 +17,4 @@ class Match:
         """
         Function returns object attributes
         """
-        return f"{self.match[0][0].first_name}" + " vs " +  f"{self.match[1][0].first_name}"
-    
-
+        return f"{self.match[0][0].first_name}" + " vs " + f"{self.match[1][0].first_name}"

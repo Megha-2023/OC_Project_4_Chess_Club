@@ -1,6 +1,4 @@
 """ Module containing Tournaments class """
-from Models.player import Player
-from Models.round import Round
 
 
 class Tournament:

@@ -10,7 +10,7 @@ class View:
                        "0 : Exit \n"
                        "Enter the number of your choice: ")
         return choice
-    
+
     def tournament_menu(self):
         print(fontstyle.apply("*** TOURNAMENT MENU ***", "bold/Italic/GREEN_BG"))
         choice = input("1 : Create New Tournament \n"
@@ -18,7 +18,7 @@ class View:
                        "0 : Return to Main Menu \n"
                        "Enter the number of your choice: ")
         return choice
-    
+
     def report_menu(self):
         print(fontstyle.apply("*** REPORT MENU ***", "bold/Italic/YELLOW_BG"))
         choice = input("1 : Show All Players \n"
@@ -29,7 +29,7 @@ class View:
                        "0 : Return to Main Menu \n"
                        "Enter the number of your choice: ")
         return choice
-    
+
     def selected_tournament_submenu(self, tournament_name: str, players: bool, round_number: int):
         if players:
             str_player = "2 : Show Selected Players"
@@ -42,22 +42,22 @@ class View:
         print(fontstyle.apply(f"*** SUBMENU for TOURNAMENT {tournament_name}***", "bold/Italic/YELLOW_BG"))
         choice = input("1 : Show Tournament Details \n"
                        + str_player + "\n"
-                       + str_round+ "\n"
-                       "4 : Show Results of Tournament \n"
+                       + str_round + "\n"
+                       "4 : Show Results of the Tournament \n"
                        "5 : Delete the Tournament \n"
                        "0 : Return to Tournament Menu \n"
                        "Enter the number of your choice: ")
         return choice
-    
+
     def prompt_for_tournament(self):
         return input("Enter Tournament details in the given format: Name, Place, Number_of_Rounds: ")
 
     def prompt_select_tournament(self):
         return input("Enter Tournament Name: ")
-    
+
     def prompt_for_player(self):
         return input("Enter Player's details in the given format: National_Id, LastName, FirstName: ")
-    
+
     def display_detailed_list(self, data_dict):
         print(data_dict)
 

@@ -7,7 +7,7 @@ class PlayerController:
         self.view = view
         self.data = data
         self.player = None
-    
+
     def get_player_data(self):
         try:
             user_input = self.view.prompt_for_player()
@@ -24,7 +24,7 @@ class PlayerController:
     def sort_players(self, updated_player_score_list):  # new
         updated_player_score_list.sort(key=lambda x: x['score'], reverse=True)
         return updated_player_score_list
-        
+
     def pair_players(self, player_list, prev_paired_list):  # new
         # Pair players
         new_paired_list = []
@@ -33,7 +33,7 @@ class PlayerController:
         for i in range(0, len(player_list), 2):
             player1 = player_list[i]
             player2 = player_list[i + 1] if i + 1 < len(player_list) else None
-            
+
             if player2:
                 # Check if players have played against each other before
                 if (player1["player_nid"], player2["player_nid"]) in prev_paired_list:
@@ -42,11 +42,11 @@ class PlayerController:
                         if (player1["player_nid"], player_list[j]["player_nid"]) not in prev_paired_list:
                             player2 = player_list[j]
                             break
-                
+
                 new_paired_list.append((player1["player_nid"], player2["player_nid"]))
                 new_score_list.append((player1["score"], player2["score"]))
         return new_paired_list, new_score_list
-    
+
     def merge_list_to_dict(self, player_tuple_list, score_tuple_list):  # new
         temp_list = []
         for k in range(0, len(player_tuple_list)):
@@ -56,7 +56,7 @@ class PlayerController:
                 temp_dict["score"] = score_tuple_list[k][j]
                 temp_list.append(temp_dict)
         return temp_list
-    
+
     def random_pair(self, player_list):
         total = len(player_list)
         paired_list = []
@@ -66,4 +66,3 @@ class PlayerController:
             paired_list.append(pl1)
             total -= 1
         return paired_list
-    

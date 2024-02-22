@@ -8,13 +8,12 @@ class MainController:
         self.data = data
         self.player_controller_obj = player_controller_obj
         self.report_contr_obj = report_contr_obj
-    
+
     def display_main_menu(self):
         print(fontstyle.apply("!!! Welcome to CASTLE CHESS CLUB !!!", "bold/Italic/BLUE_BG"))
         main_choice = 0
         while main_choice != '0':
             main_choice = self.view.main_menu()
-            
             match main_choice:
                 case '1':
                     self.display_tournament_menu()
@@ -72,7 +71,6 @@ class MainController:
                         if answer == "N" or answer == "n":
                             break
                         round_number += 1
-                        
                     if round_number > number_of_rounds:
                         print(f"{number_of_rounds} are played in tournament, \n Tournament is over!")
                         self.data.update_tournament_end_date(tournament_name)
@@ -84,7 +82,7 @@ class MainController:
                 case _:
                     print("Please enter correct choice:")
                     self.display_tournament_menu()
-        
+
     def display_report_menu(self):
         print("!! Here you can generate the report from the menu !! \n")
         report_choice = 0
@@ -107,7 +105,3 @@ class MainController:
                     self.report_contr_obj.show_rounds_matches(tournament_name)
                 case _:
                     self.display_main_menu()
-    
-
-
-    

@@ -1,5 +1,4 @@
 """ Module containing Rounds class """
-from Models.match import Match
 
 
 class Round:
@@ -19,5 +18,4 @@ class Round:
         """
         Function returns object attributes
         """
-        return {self.round_name} + ", " + {self.match_list} + ", " + {self.round_start_date} \
-                + ", " + {self.round_end_date}
+        return {self.round_name} + ", " + {self.round_start_date} + ", " + {self.round_end_date}

@@ -23,19 +23,19 @@ class ReportController:
         for tour in all_tour:
             format_str = tour["tournament_name"] + "\t" + tour["tournament_place"]
             print(format_str)
-    
+
     # name and dates of given tournamene
     def show_name_date_tour(self, tournament_name):
         tour = self.data.get_selected_tournament(tournament_name)
         print("\nTOURNAMENT NAME:\t", tour["tournament_name"])
         print("TOURNAMENT PLACE:\t", tour["tournament_place"])
-        
+
         date_obj = datetime.strptime(tour["tournament_start_date"], "%Y-%m-%d")
         print("TOURNAMENT START DATE:\t", date_obj.strftime("%d-%m-%Y"))
 
         date_obj = datetime.strptime(tour["tournament_end_date"], "%Y-%m-%d")
         print("TOURNAMENT END DATE:\t", date_obj.strftime("%d-%m-%Y"))
-    
+
     # list of players in tournament, sorted alphabetically
     def show_tournament_players(self, tournament_name):
         new_list = []
@@ -49,7 +49,7 @@ class ReportController:
         for player in new_list:
             format_str = player["last_name"] + " " + player["first_name"] + "\t(" + player["national_chess_id"] + ")"
             print(format_str)
-        
+
     # list of all rounds in tournament and all matches
     def show_rounds_matches(self, tournament_name):
         round_list = self.data.get_rounds_for_tournament(tournament_name)
