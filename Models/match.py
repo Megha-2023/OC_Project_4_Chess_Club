@@ -7,11 +7,11 @@ class Match:
     Class containing Matches' details
     """
 
-    def __init__(self, player_1: Player, player_2: Player):
+    def __init__(self, player_1: Player, score1, player_2: Player, score2):
         """
         Constructor
         """
-        self.match = ([player_1.get_code(), player_1.get_score()], [player_2.get_code(), player_2.get_score()])
+        self.match = ([player_1.national_chess_id, score1], [player_2.national_chess_id, score2])
 
     def __str__(self) -> str:
         """

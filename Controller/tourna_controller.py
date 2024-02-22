@@ -1,9 +1,5 @@
 from datetime import datetime, date
-import json
-import random
-from itertools import combinations
 from Models.tournament import Tournament
-from Models.round import Round
 from Models.match import Match
 
 
@@ -13,38 +9,37 @@ class TournamentController:
         self.data = data
         self.tournament = None
         self.player_controller_obj = player_controller_obj
-        self.match_dict = {}
-        # self.rounds_obj_list: list[Round] = []
-        # self.tournament_players_list = []
+        self.round_list = []
+        self.tournament_players_list = []
+        self.previous_paired_players_list = []
 
     def create_tournament(self):
         self.tournament = self.get_tournament_data()
         self.data.add_tournament_to_file(self.tournament)
         
     def get_tournament_data(self):
-        user_input = self.view.prompt_for_tournament()
-        input_list = user_input.split(", ")
-        tournament_name = input_list[0]
-        tournament_place = input_list[1]
-        tournament_start_date = str(date.today())
-        tournament_end_date = ""
-        number_of_rounds = input_list[2]
-        round_dict = {}
-        # create Round
-        serialized_round_list = []
-        for i in range(int(number_of_rounds)):
-            round_dict["round_name"] = "Round" + str(i+1)
-            round_dict["match_list"] = []
-            round_dict["round_start_date"] = ""
-            round_dict["round_end_date"] = ""
-            round_obj = self.data.deserialize_round_obj(round_dict)
-            # self.rounds_obj_list.append(round_obj)
-            serialized_round_list.append(round_obj.__dict__)  # serialize round object into json dict 
-            
-        player_list = []
+        try:
+            user_input = self.view.prompt_for_tournament()
+            input_list = user_input.split(", ")
+            tournament_name = input_list[0]
+            tournament_place = input_list[1]
+            tournament_start_date = str(date.today())
+            tournament_end_date = ""
+            number_of_rounds = input_list[2]
+        except IndexError:
+            print("Please Enter data in given format")
+
+        self.round_list = []
+
+        if not self.tournament_players_list:
+            print(f"No Players Selected for Tournament {tournament_name}.\n Enter Players")
+            self.tournament_players_list = self.creat_tournament_players(tournament_name)
+        
+        self.prev_paired_player_list = []
         current_round = "0"
         tournament_obj = Tournament(tournament_name, tournament_place, tournament_start_date, tournament_end_date,
-                                    serialized_round_list, player_list, current_round, number_of_rounds)
+                                    self.round_list, self.tournament_players_list, self.prev_paired_player_list,
+                                    current_round, number_of_rounds)
         return tournament_obj
     
     def select_tournament(self):
@@ -53,90 +48,145 @@ class TournamentController:
         for item in all_tournaments:
             print(f"{item['tournament_name']} at {item['tournament_place']}")
         selected_tournament = self.view.prompt_select_tournament()
-        
         return selected_tournament
         
-    def add_players_to_tournament(self, tournament_name: str):
-        tournament_players_list = []
-        tournament_data = self.data.get_selected_tournament(tournament_name)
-        self.tournament = self.data.deserialize_tournament(tournament_data)
+    def creat_tournament_players(self, tournament_name):  # new
         
-        if len(self.tournament.player_list) < 4:
-            print("Tournament must have at least 4 players!")
-            answer = "Y"
-            while True:
-                answer = input("Want to add more players? (Y/N): ")
-                if answer == "N" or answer == "n":
-                    break
-                new_player_obj = self.player_controller_obj.get_player_data()
-                self.data.add_player_to_file(new_player_obj)
-                player_dict = new_player_obj.__dict__
-                tournament_players_list.append(player_dict["national_chess_id"])
-        self.data.update_tournament_players(tournament_name, tournament_players_list)
-        self.match_dict = self.create_match(tournament_players_list)
-        self.update_custom_field_for_round(tournament_name, "match_list", self.match_dict, 1)
-        
-    def create_match(self, player_list: list):  # to create {"match1": [player,score]} type dict
-        match_obj_list = []
-        paired_players_dict = self.player_controller_obj.pair_players(player_list)
-        
-        for key in paired_players_dict.keys():
-            player1_dict = self.data.get_player_by_code(paired_players_dict[key][0])
-            player1_obj = self.data.deserialize_player_obj(player1_dict)
-                        
-            player2_dict = self.data.get_player_by_code(paired_players_dict[key][-1])
-            player2_obj = self.data.deserialize_player_obj(player2_dict)
+        print("Tournament must have at least 8 players!")
+        answer = "Y"
+        i = 0
+        while True:
+            temp_dict = {}
+            answer = input("Want to add more players? (Y/N): ")
+            if answer == "N" or answer == "n":
+                break
+            new_player_obj = self.player_controller_obj.get_player_data()
             
-            match_obj = Match(player1_obj, player2_obj)
-            match_obj_list.append(match_obj)
-        
-        for i in range(len(match_obj_list)):
-            self.match_dict["match"+str(i+1)] = (self.data.serialze_match(match_obj_list[i]))
-        
-        return self.match_dict
+            player_dict = new_player_obj.__dict__
+            
+            temp_dict["player_nid"] = player_dict["national_chess_id"]
+            temp_dict["score"] = player_dict["score"]
+
+            self.tournament_players_list.append(temp_dict)
+            i += 1
+        self.data.update_tournament_players(tournament_name, self.tournament_players_list, [])
+        return self.tournament_players_list
     
-    def update_custom_field_for_round(self, tournament_name, field_name, field_value, round_number):  # to update speicific field in round_list
-        all_rounds_list = self.data.get_rounds_for_tournament(tournament_name)
-        original_list = all_rounds_list
-        round_name = "Round"+str(round_number)
+    def create_match_obj(self, player_score_list):  # new
+        player_obj_list = []
+        match_obj_list = []
+        temp_score_list = []
+        # First create player's object list
+        for k in range(len(player_score_list)):
+            player_obj = None
+            data_dict = self.data.get_player_by_code(player_score_list[k]["player_nid"])
+            player_obj = self.data.create_player_obj(data_dict)
+            # print(player_obj.national_chess_id)
+            player_obj_list.append(player_obj)
+            temp_score_list.append(player_score_list[k]["score"])
+
+        # then create match objects from player's object list and score list    
+        for i in range(0, len(player_obj_list), 2):
+            player_1 = player_obj_list[i]
+            player_2 = player_obj_list[i+1]
+            score_1 = temp_score_list[i]
+            score_2 = temp_score_list[i+1]
+            
+            # Create Match class object
+            match_obj = Match(player_1, score_1, player_2, score_2)
+            match_obj_list.append(match_obj.__dict__)
         
-        for i in range(len(original_list)):
-            if original_list[i]["round_name"] == round_name:
-                key_to_update = i
-                current_round_dict = original_list[i]
-                current_round_dict[field_name] = field_value
-            else:
-                continue
+        return match_obj_list
+    
+    def add_new_score_to_prev(self, paired_player_list, input_player_score_list): # new
+        new_list = []
         
-        original_list[key_to_update] = current_round_dict
-        self.data.update_tournament_rounds(tournament_name, original_list, str(round_number))
+        for i in range(len(paired_player_list)):
+            temp_dict = {}
+            temp_dict["player_nid"] = paired_player_list[i]["player_nid"]
+            temp_dict["score"] = float(paired_player_list[i]["score"]) + float(input_player_score_list[i]["score"])
+            print(temp_dict["score"])
+            new_list.append(temp_dict)
+        return new_list
+    
+    def update_prev_paired_players(self, paired_player_list): # new
+        temp_list = []
+        for i in range(0, len(paired_player_list), 2):
+            player1 = paired_player_list[i][0]
+            player2 = paired_player_list[i+1][1]
+            new_tuple = (player1, player2)
+            temp_list.append(new_tuple)
+        return temp_list
+    
+    def start_round(self, tournament_name, round_number):  # -------------------ROUND 1 ------------------
+        
+        # Get round_list from json file if empty
+        if not self.round_list:
+            self.round_list = self.data.get_rounds_for_tournament(tournament_name)
+        
+        # get tournament players list each time
+        self.tournament_players_list = self.data.get_tournament_players(tournament_name)
 
-    def start_round(self, tournament_name: str, round_number: int = 0):
-        print(f"Round{round_number} is Started.! Following Matches will be played:\n")
-        round_dict = self.data.get_single_round(tournament_name, round_number)
-        self.match_dict = round_dict["match_list"]
-        for key, value in self.match_dict.items():
-            print(f"{key} for Players:{value}")
-        self.stop_round(self.match_dict, round_number)
+        # get previously paried players in this tournament
+        self.previous_paired_players_list = self.data.get_prev_paired_player_list(tournament_name)
+        
+        # for first round:
+        if round_number == 1:
+            # pair randomly returns list of dict
+            paired_player_list = self.player_controller_obj.random_pair(self.tournament_players_list)
+        # for next round:
+        else:
+            # pair_players returns list of tuples
+            player_tuple_list, score_tuple_list = self.player_controller_obj.pair_players(
+                self.tournament_players_list, self.previous_paired_players_list)
+            paired_player_list = self.player_controller_obj.merge_list_to_dict(player_tuple_list, score_tuple_list)
+        
+        # update set of previously paired players in previous matches
+        self.previous_paired_players_list.append(player_tuple_list)
+        
+        # print("playing")
+        print(f"Round{round_number} is being played")
+        # update round_start_date
+        round_start_date = str(datetime.now())
+        # round is over
+        print(f"Round{round_number} is Over!, Enter scores for each player")
 
-    def stop_round(self, played_match_dict, round_number):
-        print(f"======== Round{round_number} is over ===========\n Please Enter Results of the Round")
-        player_score_dict = self.update_score(played_match_dict)
-        temp_list = self.player_controller_obj.sort_players(player_score_dict)
-        i = 1
-        for item in temp_list:
-            played_match_dict["match"+str(i)] = item
-        print(played_match_dict)
+        # ask socre for each player for current round
+        input_player_score_list = self.view.ask_for_score(paired_player_list)
 
-    def update_score(self, played_match_dict: dict):
-        player_score_dict = {}
-        for key, value in played_match_dict.items():
-            player_tuple = value
-            player_score_dict[player_tuple[0][0]] = player_tuple[0][1]
+        # add current score to prev score
+        updated_player_score_list = self.add_new_score_to_prev(paired_player_list, input_player_score_list)
+        
+        # creat match obj (from tour_playe_list_of dict)
+        match_obj_list = self.create_match_obj(updated_player_score_list)
+        
+        # sort players and save tourn_player_list
+        self.tournament_players_list = self.player_controller_obj.sort_players(updated_player_score_list)
+        
+        # update round_end_date and round_number
+        round_end_date = str(datetime.now())
+        current_round = round_number
 
-            player_score_dict[player_tuple[1][0]] = player_tuple[1][1]
-        player_score_dict = self.view.ask_for_score(player_score_dict)
-        return player_score_dict
+        # create round dict
+        new_round_dict = {}
+        new_round_dict["round_name"] = "Round"+str(round_number)
+        new_round_dict["match_list"] = match_obj_list
+        new_round_dict["round_start_date"] = round_start_date
+        new_round_dict["round_end_date"] = round_end_date
+        
+        round_obj = self.data.create_round_obj(new_round_dict)
+        
+        # append new object to existing round list
+        self.round_list.append(round_obj.__dict__)
+        
+        # save updated round_list to json file
+        print(self.round_list)
+        print(self.tournament_players_list)
+        print(self.previous_paired_players_list)
+        self.data.update_tournament_players(tournament_name, self.tournament_players_list,
+                                            self.previous_paired_players_list)
+        self.data.update_tournament_rounds(tournament_name, self.round_list, current_round)
+        
     
     
         

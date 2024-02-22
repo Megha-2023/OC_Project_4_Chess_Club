@@ -19,6 +19,7 @@ class Tournament:
         self.tournament_end_date = end_date
         self.round_list = round_list
         self.player_list = player_list
+        self.prev_paired_player_list = []
         self.current_round = current_round
         self.number_of_rounds = number_of_rounds
 

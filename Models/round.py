@@ -6,7 +6,7 @@ class Round:
     """
     Class containing Rounds' details
     """
-    def __init__(self, name: str, match_list: list[Match], start_date: str, end_date: str):
+    def __init__(self, name: str, match_list: list, start_date: str, end_date: str):
         """
         Constructor
         """
@@ -19,5 +19,5 @@ class Round:
         """
         Function returns object attributes
         """
-        return {self.round_name} + ", " + {self.matches_list} + ", " + {self.round_start_date} \
+        return {self.round_name} + ", " + {self.match_list} + ", " + {self.round_start_date} \
                 + ", " + {self.round_end_date}

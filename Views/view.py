@@ -26,7 +26,7 @@ class View:
         if players:
             str_player = "2 : Show Selected Players"
         else:
-            str_player = "2 : No Players selected yet, Add Players for this Tournament"
+            str_player = "2 : No Players added yet, Add Players for this Tournament"
         if round_number != 1:
             str_round = "3 : Play Next Round"
         else:
@@ -45,19 +45,22 @@ class View:
         pass
 
     def prompt_for_tournament(self):
-        return input("Enter Tournament details in the given format: [Name, Place, Number_of_Rounds]: ")
+        return input("Enter Tournament details in the given format: Name, Place, Number_of_Rounds: ")
 
     def prompt_select_tournament(self):
         return input("Enter Tournament Name: ")
     
     def prompt_for_player(self):
-        return input("Enter Player's details in the given format: [National_Id, LastName, FirstName]: ")
+        return input("Enter Player's details in the given format: National_Id, LastName, FirstName: ")
     
     def display_detailed_list(self, data_dict):
         print(data_dict)
 
-    def ask_for_score(self, sort_dic: dict):
-        for key in sort_dic.keys():
-            score = input(f"Enter socre of {key}: ")
-            sort_dic[key] = score
-        return sort_dic
+    def ask_for_score(self, player_list):
+        new_player_list = []
+        for i in range(len(player_list)):
+            temp_dict = {}
+            temp_dict["player_nid"] = player_list[i]["player_nid"]
+            temp_dict["score"] = float(input(f"Enter Score for {temp_dict['player_nid']}: "))
+            new_player_list.append(temp_dict)
+        return new_player_list

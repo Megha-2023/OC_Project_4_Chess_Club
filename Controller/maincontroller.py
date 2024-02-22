@@ -38,17 +38,17 @@ class MainController:
     def display_tournament_submenu(self, tournament_name: str):
         submenu_choice = 0
         while submenu_choice != '0':
-            selected_players = self.data.get_selected_players(tournament_name)
-            if not selected_players or len(selected_players) < 4:
+            selected_players = self.data.get_tournament_players(tournament_name)
+            if not selected_players or len(selected_players) < 8:
                 players_status = False
             else:
                 players_status = True
             data_dict = self.data.get_selected_tournament(tournament_name)
+            number_of_rounds = int(data_dict["number_of_rounds"])
             if data_dict["current_round"] == "0":
                 round_number = 1
             else:
                 round_number = int(data_dict["current_round"])
-
             submenu_choice = self.view.selected_tournament_submenu(tournament_name, players_status, round_number)
             match submenu_choice:
                 case '1':
@@ -60,12 +60,20 @@ class MainController:
                         print("Players selected for this Tournament:")
                         self.view.display_detailed_list(selected_players)
                     else:
-                        self.tournament_contr_obj.add_players_to_tournament(tournament_name)
+                        self.tournament_contr_obj.creat_tournament_players(tournament_name)
                 case '3':
-                    self.tournament_contr_obj.start_round(tournament_name, round_number)
-                    
-                    # self.tournament_contr_obj.stop_round(tournament_name, played_round, played_match_dict, round_number)
-                    
+                    answer = "Y"
+                    while round_number <= number_of_rounds:
+                        self.tournament_contr_obj.start_round(tournament_name, round_number)
+                        # print(f"Round{round_number} is updated Successfull! \n")
+                        answer = input(" Want to play next round?(Y/N) : ")
+                        if answer == "N" or answer == "n":
+                            break
+                        round_number += 1
+                        
+                    if round_number > number_of_rounds:
+                        print(f"{number_of_rounds} are played in tournament, \n Tournament is over!")
+                        self.data.update_tournament_end_date(tournament_name)
                 case '4':
                     show_results(tournament_name)
                 case '5':

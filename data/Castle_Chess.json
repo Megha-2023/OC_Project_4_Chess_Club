@@ -1,2 +1,222 @@
-{"players": {"1": {"national_chess_id": "TS12344", "last_name": "Disilva", "first_name": "Anthony", "DOB": "12/5/1989", "score": 52, "rank": 5}, "2": {"national_chess_id": "TS12345", "last_name": "Disilva", "first_name": "Anthony", "DOB": "12/5/1989", "score": 89, "rank": 5}, "3": {"national_chess_id": "TS12346", "last_name": "Disilva", "first_name": "Anthony", "DOB": "12/5/1989", "score": 36, "rank": 5}, "4": {"national_chess_id": "TS12345", "last_name": "Disilva", "first_name": "Anthony", "DOB": "12/5/1989", "score": 25, "rank": 5}, "5": {"national_chess_id": "TS12345", "last_name": "Disilva", "first_name": "Anthony", "DOB": "12/5/1989", "score": 25, "rank": 5}, "6": {"national_chess_id": "TS12345", "last_name": "Disilva", "first_name": "Anthony", "DOB": "12/5/1989", "score": 25, "rank": 5}, "7": {"national_chess_id": "TS12345", "last_name": "Disilva", "first_name": "Anthony", "DOB": "12/5/1989", "score": 25, "rank": 5}, "8": {"national_chess_id": "TS12345", "last_name": "Disilva", "first_name": "Anthony", "DOB": "12/5/1989", "score": 25, "rank": 5}, "9": {"national_chess_id": "TS12345", "last_name": "Disilva", "first_name": "Anthony", "DOB": "12/5/1989", "score": 25, "rank": 5}, "10": {"national_chess_id": "TS12345", "last_name": "Disilva", "first_name": "Anthony", "DOB": "12/5/1989", "score": 25, "rank": 5}}, 
-"tournament": {"2": {"tournament_name": "T2", "tournament_place": "Grenoble", "tournament_start_date": "2024-01-25", "tournament_end_date": "", "round_list": ["R1", "R2", "R3"], "player_list": [], "prev_round": null, "number_of_rounds": "3"}, "3": {"tournament_name": "T3", "tournament_place": "Lyon", "tournament_start_date": "2024-01-26", "tournament_end_date": "", "round_list": ["R1", "R2", "R3", "R4"], "player_list": [], "prev_round": null, "number_of_rounds": "4"}}}
+{
+  "players": {
+    "41": {
+      "national_chess_id": "SP1",
+      "last_name": "M",
+      "first_name": "N",
+      "DOB": ""
+    },
+    "42": {
+      "national_chess_id": "SP2",
+      "last_name": "H",
+      "first_name": "E",
+      "DOB": ""
+    },
+    "43": {
+      "national_chess_id": "SP3",
+      "last_name": "E",
+      "first_name": "W",
+      "DOB": ""
+    },
+    "44": {
+      "national_chess_id": "SP4",
+      "last_name": "W",
+      "first_name": "Z",
+      "DOB": ""
+    },
+    "45": {
+      "national_chess_id": "SP5",
+      "last_name": "Q",
+      "first_name": "A",
+      "DOB": ""
+    },
+    "46": {
+      "national_chess_id": "SP6",
+      "last_name": "W",
+      "first_name": "X",
+      "DOB": ""
+    },
+    "47": {
+      "national_chess_id": "SP7",
+      "last_name": "O",
+      "first_name": "L",
+      "DOB": ""
+    },
+    "48": {
+      "national_chess_id": "SP8",
+      "last_name": "P",
+      "first_name": "X",
+      "DOB": ""
+    }
+  },
+  "tournament": {
+    "11": {
+      "tournament_name": "SP",
+      "tournament_place": "Spain",
+      "tournament_start_date": "2024-02-15",
+      "tournament_end_date": "",
+      "round_list": [
+        {
+          "round_name": "Round1",
+          "match_list": [
+            {
+              "match": [
+                ["SP3", 1.0],
+                ["SP4", 1.5]
+              ]
+            },
+            {
+              "match": [
+                ["SP1", 0.5],
+                ["SP6", 0.5]
+              ]
+            },
+            {
+              "match": [
+                ["SP5", 1.0],
+                ["SP2", 0.5]
+              ]
+            },
+            {
+              "match": [
+                ["SP7", 1.0],
+                ["SP8", 1.5]
+              ]
+            }
+          ],
+          "round_start_date": "2024-02-22 16:34:48.073005",
+          "round_end_date": "2024-02-22 16:35:05.598911"
+        },
+        {
+          "round_name": "Round2",
+          "match_list": [
+            {
+              "match": [
+                ["SP4", 2.5],
+                ["SP8", 3.0]
+              ]
+            },
+            {
+              "match": [
+                ["SP3", 2.5],
+                ["SP5", 3.0]
+              ]
+            },
+            {
+              "match": [
+                ["SP7", 2.0],
+                ["SP1", 1.5]
+              ]
+            },
+            {
+              "match": [
+                ["SP6", 1.0],
+                ["SP2", 1.5]
+              ]
+            }
+          ],
+          "round_start_date": "2024-02-22 17:33:32.299370",
+          "round_end_date": "2024-02-22 17:33:49.643992"
+        },
+        {
+          "round_name": "Round3",
+          "match_list": [
+            {
+              "match": [
+                ["SP8", 4.0],
+                ["SP5", 5.0]
+              ]
+            },
+            {
+              "match": [
+                ["SP4", 4.0],
+                ["SP3", 3.0]
+              ]
+            },
+            {
+              "match": [
+                ["SP7", 4.5],
+                ["SP1", 2.5]
+              ]
+            },
+            {
+              "match": [
+                ["SP2", 2.5],
+                ["SP6", 2.0]
+              ]
+            }
+          ],
+          "round_start_date": "2024-02-22 17:33:52.362702",
+          "round_end_date": "2024-02-22 17:34:02.326253"
+        },
+        {
+          "round_name": "Round4",
+          "match_list": [
+            {
+              "match": [
+                ["SP5", 7.0],
+                ["SP7", 8.5]
+              ]
+            },
+            {
+              "match": [
+                ["SP8", 5.5],
+                ["SP4", 5.5]
+              ]
+            },
+            {
+              "match": [
+                ["SP3", 3.5],
+                ["SP1", 3.5]
+              ]
+            },
+            {
+              "match": [
+                ["SP2", 2.5],
+                ["SP6", 2.0]
+              ]
+            }
+          ],
+          "round_start_date": "2024-02-22 17:34:04.337394",
+          "round_end_date": "2024-02-22 17:34:17.379991"
+        }
+      ],
+      "player_list": [
+        { "player_nid": "SP7", "score": 8.5 },
+        { "player_nid": "SP5", "score": 7.0 },
+        { "player_nid": "SP8", "score": 5.5 },
+        { "player_nid": "SP4", "score": 5.5 },
+        { "player_nid": "SP3", "score": 3.5 },
+        { "player_nid": "SP1", "score": 3.5 },
+        { "player_nid": "SP2", "score": 2.5 },
+        { "player_nid": "SP6", "score": 2.0 }
+      ],
+      "prev_paired_player_list": [
+        ["SP4", "SP8"],
+        ["SP3", "SP5"],
+        ["SP7", "SP1"],
+        ["SP6", "SP2"],
+        [
+          ["SP4", "SP8"],
+          ["SP3", "SP5"],
+          ["SP7", "SP1"],
+          ["SP6", "SP2"]
+        ],
+        [
+          ["SP8", "SP5"],
+          ["SP4", "SP3"],
+          ["SP7", "SP1"],
+          ["SP2", "SP6"]
+        ],
+        [
+          ["SP5", "SP7"],
+          ["SP8", "SP4"],
+          ["SP3", "SP1"],
+          ["SP2", "SP6"]
+        ]
+      ],
+      "current_round": 4,
+      "number_of_rounds": "4"
+    }
+  }
+}
