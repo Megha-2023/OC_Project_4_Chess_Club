@@ -2,50 +2,50 @@
   "players": {
     "41": {
       "national_chess_id": "SP1",
-      "last_name": "M",
-      "first_name": "N",
+      "last_name": "Marc",
+      "first_name": "Nut",
       "DOB": ""
     },
     "42": {
       "national_chess_id": "SP2",
-      "last_name": "H",
-      "first_name": "E",
+      "last_name": "Hibert",
+      "first_name": "Eugen",
       "DOB": ""
     },
     "43": {
       "national_chess_id": "SP3",
-      "last_name": "E",
-      "first_name": "W",
+      "last_name": "Era",
+      "first_name": "Williams",
       "DOB": ""
     },
     "44": {
       "national_chess_id": "SP4",
-      "last_name": "W",
-      "first_name": "Z",
+      "last_name": "Watson",
+      "first_name": "Zu",
       "DOB": ""
     },
     "45": {
       "national_chess_id": "SP5",
-      "last_name": "Q",
-      "first_name": "A",
+      "last_name": "Qureshi",
+      "first_name": "Adam",
       "DOB": ""
     },
     "46": {
       "national_chess_id": "SP6",
-      "last_name": "W",
-      "first_name": "X",
+      "last_name": "Wi",
+      "first_name": "Truck",
       "DOB": ""
     },
     "47": {
       "national_chess_id": "SP7",
-      "last_name": "O",
-      "first_name": "L",
+      "last_name": "Olive",
+      "first_name": "Lio",
       "DOB": ""
     },
     "48": {
       "national_chess_id": "SP8",
-      "last_name": "P",
-      "first_name": "X",
+      "last_name": "Paul",
+      "first_name": "Yen",
       "DOB": ""
     }
   },
@@ -54,7 +54,7 @@
       "tournament_name": "SP",
       "tournament_place": "Spain",
       "tournament_start_date": "2024-02-15",
-      "tournament_end_date": "",
+      "tournament_end_date": "2024-02-22",
       "round_list": [
         {
           "round_name": "Round1",

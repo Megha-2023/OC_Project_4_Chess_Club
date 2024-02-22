@@ -1,19 +1,21 @@
 import fontstyle
 
+
 class MainController:
-    def __init__(self, view, tournament_contr_obj, data, player_controller_obj):
+    def __init__(self, view, tournament_contr_obj, data, player_controller_obj, report_contr_obj):
         self.view = view
         self.tournament_contr_obj = tournament_contr_obj
         self.data = data
         self.player_controller_obj = player_controller_obj
+        self.report_contr_obj = report_contr_obj
     
     def display_main_menu(self):
         print(fontstyle.apply("!!! Welcome to CASTLE CHESS CLUB !!!", "bold/Italic/BLUE_BG"))
-        user_choice = 0
-        while user_choice != '0':
-            user_choice = self.view.main_menu()
+        main_choice = 0
+        while main_choice != '0':
+            main_choice = self.view.main_menu()
             
-            match user_choice:
+            match main_choice:
                 case '1':
                     self.display_tournament_menu()
                 case '2':
@@ -83,12 +85,28 @@ class MainController:
                     print("Please enter correct choice:")
                     self.display_tournament_menu()
         
-    def display_player_menu():
-        pass
-
-    def display_report_menu():
-        pass
-
+    def display_report_menu(self):
+        print("!! Here you can generate the report from the menu !! \n")
+        report_choice = 0
+        while report_choice != '0':
+            report_choice = self.view.report_menu()
+            print(report_choice)
+            match report_choice:
+                case '1':
+                    self.report_contr_obj.show_all_players()
+                case '2':
+                    self.report_contr_obj.show_all_tournaments()
+                case '3':
+                    tournament_name = self.view.prompt_for_tournament()
+                    self.report_contr_obj.show_name_date_tour(tournament_name)
+                case '4':
+                    tournament_name = self.view.prompt_for_tournament()
+                    self.report_contr_obj.show_tournament_players(tournament_name)
+                case '5':
+                    tournament_name = self.view.prompt_for_tournament()
+                    self.report_contr_obj.show_rounds_matches(tournament_name)
+                case _:
+                    self.display_main_menu()
     
 
 

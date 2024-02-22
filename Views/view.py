@@ -11,13 +11,21 @@ class View:
                        "Enter the number of your choice: ")
         return choice
     
-    def player_menu(self):
-        pass
-
     def tournament_menu(self):
-        print(fontstyle.apply("*** TOURNAMENT MENU ***", "bold/Italic/YELLOW_BG"))
+        print(fontstyle.apply("*** TOURNAMENT MENU ***", "bold/Italic/GREEN_BG"))
         choice = input("1 : Create New Tournament \n"
                        "2 : Check Existing Tournaments \n"
+                       "0 : Return to Main Menu \n"
+                       "Enter the number of your choice: ")
+        return choice
+    
+    def report_menu(self):
+        print(fontstyle.apply("*** REPORT MENU ***", "bold/Italic/YELLOW_BG"))
+        choice = input("1 : Show All Players \n"
+                       "2 : Show All Tournaments \n"
+                       "3 : Show name and dates of the given Tournament \n"
+                       "4 : Show list of players participating in given Tournament \n"
+                       "5 : Show All Rounds and Matches of the given Tournament \n"
                        "0 : Return to Main Menu \n"
                        "Enter the number of your choice: ")
         return choice
@@ -41,9 +49,6 @@ class View:
                        "Enter the number of your choice: ")
         return choice
     
-    def report_menu(self):
-        pass
-
     def prompt_for_tournament(self):
         return input("Enter Tournament details in the given format: Name, Place, Number_of_Rounds: ")
 
