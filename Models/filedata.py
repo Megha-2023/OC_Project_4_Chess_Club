@@ -17,11 +17,13 @@ class FileData:
     # ----------------- ADD/UPDATE/DELETE METHODS TO SAVE DATA TO JSON FILE -----------------------
     def add_player_to_file(self, new_player: Player):
         """ Method to add player's details in json file"""
+        user_query = Query()
+        old_player = self.players_table.search(user_query.national_chess_id == new_player.national_chess_id)
+        if not old_player:
+            data_str = {"national_chess_id": new_player.national_chess_id, "last_name": new_player.last_name,
+                        "first_name": new_player.first_name, "DOB": new_player.dob}
 
-        data_str = {"national_chess_id": new_player.national_chess_id, "last_name": new_player.last_name,
-                    "first_name": new_player.first_name, "DOB": new_player.dob}
-
-        self.players_table.insert(data_str)
+            self.players_table.insert(data_str)
 
     def add_tournament_to_file(self, new_tournament: Tournament):
         """ Method to add tournament's details to json file """

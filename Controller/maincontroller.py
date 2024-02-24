@@ -40,7 +40,7 @@ class MainController:
         submenu_choice = 0
         while submenu_choice != '0':
             selected_players = self.data.get_tournament_players(tournament_name)
-            if not selected_players or len(selected_players) < 8:
+            if not selected_players:
                 players_status = False
             else:
                 players_status = True
@@ -59,7 +59,7 @@ class MainController:
                 case '2':
                     if players_status:
                         print("Players selected for this Tournament:")
-                        self.view.display_detailed_list(selected_players)
+                        self.report_contr_obj.show_tournament_players(tournament_name)
                     else:
                         self.tournament_contr_obj.creat_tournament_players(tournament_name)
                 case '3':
@@ -67,15 +67,15 @@ class MainController:
                     while round_number <= number_of_rounds:
                         self.tournament_contr_obj.start_round(tournament_name, round_number)
                         # print(f"Round{round_number} is updated Successfull! \n")
-                        answer = input(" Want to play next round?(Y/N) : ")
+                        answer = input("\n Want to play next round?(Y/N) : ")
                         if answer == "N" or answer == "n":
                             break
                         round_number += 1
                     if round_number > number_of_rounds:
-                        print(f"{number_of_rounds} are played in tournament, \n Tournament is over!")
+                        print(fontstyle.apply(f"*** {number_of_rounds} Rounds are played in tournament, \n Tournament is over!", "bold/UNDERLINE"))
                         self.data.update_tournament_end_date(tournament_name)
                 case '4':
-                    show_results(tournament_name)
+                    self.tournament_contr_obj.show_results(tournament_name)
                 case '5':
                     self.data.delete_tournament(tournament_name)
                     print(f"Deleted {tournament_name} Tournament")
@@ -84,7 +84,7 @@ class MainController:
                     self.display_tournament_menu()
 
     def display_report_menu(self):
-        print("!! Here you can generate the report from the menu !! \n")
+        print("*** Here you can generate the report from the menu\n")
         report_choice = 0
         while report_choice != '0':
             report_choice = self.view.report_menu()
@@ -95,13 +95,13 @@ class MainController:
                 case '2':
                     self.report_contr_obj.show_all_tournaments()
                 case '3':
-                    tournament_name = self.view.prompt_for_tournament()
+                    tournament_name = self.tournament_contr_obj.select_tournament()
                     self.report_contr_obj.show_name_date_tour(tournament_name)
                 case '4':
-                    tournament_name = self.view.prompt_for_tournament()
+                    tournament_name = self.tournament_contr_obj.select_tournament()
                     self.report_contr_obj.show_tournament_players(tournament_name)
                 case '5':
-                    tournament_name = self.view.prompt_for_tournament()
+                    tournament_name = self.tournament_contr_obj.select_tournament()
                     self.report_contr_obj.show_rounds_matches(tournament_name)
                 case _:
                     self.display_main_menu()

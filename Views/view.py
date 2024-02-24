@@ -20,7 +20,7 @@ class View:
         return choice
 
     def report_menu(self):
-        print(fontstyle.apply("*** REPORT MENU ***", "bold/Italic/YELLOW_BG"))
+        print(fontstyle.apply("\n*** REPORT MENU ***", "bold/Italic/YELLOW_BG"))
         choice = input("1 : Show All Players \n"
                        "2 : Show All Tournaments \n"
                        "3 : Show name and dates of the given Tournament \n"
@@ -39,6 +39,7 @@ class View:
             str_round = "3 : Play Next Round"
         else:
             str_round = "3 : Start First Round"
+        print("\n")
         print(fontstyle.apply(f"*** SUBMENU for TOURNAMENT {tournament_name}***", "bold/Italic/YELLOW_BG"))
         choice = input("1 : Show Tournament Details \n"
                        + str_player + "\n"
@@ -50,13 +51,13 @@ class View:
         return choice
 
     def prompt_for_tournament(self):
-        return input("Enter Tournament details in the given format: Name, Place, Number_of_Rounds: ")
+        return input("\nEnter Tournament details in the given format: Name, Place, Number_of_Rounds: ")
 
     def prompt_select_tournament(self):
-        return input("Enter Tournament Name: ")
+        return input("\nEnter Tournament Name: ")
 
     def prompt_for_player(self):
-        return input("Enter Player's details in the given format: National_Id, LastName, FirstName: ")
+        return input("\nEnter Player's details in the given format: National_Id, LastName, FirstName: ")
 
     def display_detailed_list(self, data_dict):
         print(data_dict)
