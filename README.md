@@ -4,25 +4,27 @@ The project is an offline application of Chess Tournament Management for the Cas
 
 ## Run the program
 
-### 1. Requirements
+### 1. Create Virtual Environment
 
-First copy requirements.txt file and run following command on terminal:
-
-```python
-pip install requirements.txt
-```
-
-### 2. Create Virtual Environment
-
-To create virtual environment run following command on terminal:
+First, install virtualenv package of python and run following command on terminal:
 
 ```python
+pip install virtualenv
 python -m venv <<name_of_env>>
 Windows: <<name_of_env>>\Scripts\activate.bat
 
 Powershell: <<name_of_env>>\Scripts\activate
 
 Unix/MacOS: source <<name_of_env>>/bin/acivate
+```
+
+### 2. Requirements
+
+Secondly, copy requirements.txt file which contains the list of required libraries for this program.
+Then run following command on terminal:
+
+```python
+pip install requirements.txt
 ```
 
 ### 3. Start the application
@@ -66,3 +68,11 @@ The application is menu-driven. Once the above command is entered Main Menu will
 1. Number of Rounds are by default set to 4, which requires at least 8 players in the tournament
 2. After each Round, players of the tournament are sorted by highest score.
 3. Players are referenced by their unique National Chess ID.
+
+### Flake8-html Report
+
+A flake8 plugin generate HTML reports of flake8 violations. The reports will be stored in a folder flake8_html in the current directory.
+
+```python
+flake8 --format=html --htmldir=flake-report
+```

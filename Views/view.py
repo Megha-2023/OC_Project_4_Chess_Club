@@ -36,9 +36,9 @@ class View:
         else:
             str_player = "2 : No Players added yet, Add Players for this Tournament"
         if round_number != 1:
-            str_round = "3 : Play Next Round"
+            str_round = "3 : Play Round Number" + str(round_number)
         else:
-            str_round = "3 : Start First Round"
+            str_round = "3 : Play First Round"
         print("\n")
         print(fontstyle.apply(f"*** SUBMENU for TOURNAMENT {tournament_name}***", "bold/Italic/YELLOW_BG"))
         choice = input("1 : Show Tournament Details \n"

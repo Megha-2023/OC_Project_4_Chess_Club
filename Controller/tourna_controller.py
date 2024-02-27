@@ -2,6 +2,7 @@ from datetime import datetime, date
 import fontstyle
 from Models.tournament import Tournament
 from Models.match import Match
+from Controller.reportcontroller import ReportController
 
 
 class TournamentController:
@@ -10,6 +11,7 @@ class TournamentController:
         self.data = data
         self.tournament = None
         self.player_controller_obj = player_controller_obj
+        self.report_contr_obj = ReportController(view, data)
         self.round_list = []
         self.tournament_players_list = []
         self.previous_paired_players_list = []
@@ -37,13 +39,24 @@ class TournamentController:
 
         if not self.tournament_players_list:
             print(f"No Players Selected for Tournament {tournament_name}.\n Enter Players")
-            self.tournament_players_list = self.creat_tournament_players(tournament_name, number_of_rounds)
+            self.disply_associate_player_menu(tournament_name, number_of_rounds)
+            # self.tournament_players_list = self.creat_tournament_players(tournament_name, number_of_rounds)
 
         self.prev_paired_player_list = []
         current_round = "0"
         tournament_obj = Tournament(tournament_name, tournament_place, tournament_start_date, tournament_end_date,
                                     self.round_list, self.tournament_players_list, current_round, number_of_rounds)
         return tournament_obj
+
+    def disply_associate_player_menu(self, tournament_name, number_of_rounds):
+        player_choice = input("1. Select Player from Existing Player's Data \n"
+                              "2. Add New Player \n"
+                              "Enter your choice: ")
+        if player_choice == '1':
+            self.report_contr_obj.show_all_players()
+            self.associate_player(tournament_name)
+        else:
+            self.creat_tournament_players(tournament_name, number_of_rounds)
 
     def select_tournament(self):
         all_tournaments = self.data.get_all_tournament_data()
@@ -54,11 +67,25 @@ class TournamentController:
         selected_tournament = self.view.prompt_select_tournament()
         return selected_tournament
 
+    def associate_player(self, tournament_name):
+        answer = "Y"
+        while True:
+            nid = input("Enter National Chess ID of Player: ")
+            temp_dict = {}
+            temp_dict["player_nid"] = nid
+            temp_dict["score"] = float(0)
+            self.tournament_players_list.append(temp_dict)
+            answer = input("Want to Select more players? (Y/N): ")
+            if answer == "N" or answer == "n":
+                break
+        self.data.update_tournament_players(tournament_name, self.tournament_players_list, [])
+        return self.tournament_players_list
+
     def creat_tournament_players(self, tournament_name, number_of_rounds=4):
         number_of_players = int(number_of_rounds) * 2
         print(f"Tournament must have at least {number_of_players} players!")
+
         answer = "Y"
-        i = 0
         while True:
             temp_dict = {}
             answer = input("Want to add more players? (Y/N): ")
@@ -72,7 +99,6 @@ class TournamentController:
             temp_dict["score"] = float(0)
 
             self.tournament_players_list.append(temp_dict)
-            i += 1
 
         self.data.update_tournament_players(tournament_name, self.tournament_players_list, [])
         return self.tournament_players_list
@@ -113,7 +139,6 @@ class TournamentController:
             temp_dict = {}
             temp_dict["player_nid"] = paired_player_list[i]["player_nid"]
             temp_dict["score"] = float(paired_player_list[i]["score"]) + float(input_player_score_list[i]["score"])
-            print(temp_dict["score"])
             new_list.append(temp_dict)
         return new_list
 
@@ -126,7 +151,7 @@ class TournamentController:
             temp_list.append(new_tuple)
         return temp_list
 
-    def start_round(self, tournament_name, round_number):  # -------------------ROUND 1 ------------------
+    def start_round(self, tournament_name, round_number):
 
         # Get round_list from json file if empty
         if not self.round_list:
@@ -198,7 +223,6 @@ class TournamentController:
         print(fontstyle.apply("NAME\t\tNATIONAL CHESS ID\tSCORE", "bold/UNDERLINE"))
         tour_players = self.data.get_tournament_players(tournament_name)
         for i in range(len(tour_players)):
-            
             player_dict = self.data.get_player_by_code(tour_players[i]["player_nid"])
             if i == 0:
                 winner = player_dict

@@ -49,7 +49,7 @@ class MainController:
             if data_dict["current_round"] == "0":
                 round_number = 1
             else:
-                round_number = int(data_dict["current_round"])
+                round_number = int(data_dict["current_round"]+1)
             submenu_choice = self.view.selected_tournament_submenu(tournament_name, players_status, round_number)
             match submenu_choice:
                 case '1':
@@ -61,7 +61,7 @@ class MainController:
                         print("Players selected for this Tournament:")
                         self.report_contr_obj.show_tournament_players(tournament_name)
                     else:
-                        self.tournament_contr_obj.creat_tournament_players(tournament_name)
+                        self.tournament_contr_obj.disply_associate_player_menu(tournament_name, number_of_rounds)
                 case '3':
                     answer = "Y"
                     while round_number <= number_of_rounds:
@@ -72,7 +72,8 @@ class MainController:
                             break
                         round_number += 1
                     if round_number > number_of_rounds:
-                        print(fontstyle.apply(f"*** {number_of_rounds} Rounds are played in tournament, \n Tournament is over!", "bold/UNDERLINE"))
+                        print(fontstyle.apply(f"*** {number_of_rounds} Rounds are played in tournament,"
+                                              "\n Tournament is over!", "bold/UNDERLINE"))
                         self.data.update_tournament_end_date(tournament_name)
                 case '4':
                     self.tournament_contr_obj.show_results(tournament_name)
