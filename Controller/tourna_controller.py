@@ -1,3 +1,4 @@
+""" Module containing TournamentController class to interact between view and Tournament class"""
 from datetime import datetime, date
 import fontstyle
 from Models.tournament import Tournament
@@ -6,6 +7,8 @@ from Controller.reportcontroller import ReportController
 
 
 class TournamentController:
+    """ Class controlling Tournament operations"""
+
     def __init__(self, view, data, player_controller_obj):
         self.view = view
         self.data = data
@@ -17,10 +20,12 @@ class TournamentController:
         self.previous_paired_players_list = []
 
     def create_tournament(self):
+        """ Method to create new tournament"""
         self.tournament = self.get_tournament_data()
         self.data.add_tournament_to_file(self.tournament)
 
     def get_tournament_data(self):
+        """ Method to ask tournament data from user and save new to json file"""
         try:
             user_input = self.view.prompt_for_tournament()
             input_list = user_input.split(", ")
@@ -29,7 +34,7 @@ class TournamentController:
             tournament_start_date = str(date.today())
             tournament_end_date = ""
             if input_list[2]:
-                number_of_rounds = input_list[2]
+                number_of_rounds = int(input_list[2])
             else:
                 number_of_rounds = 4
         except IndexError:
@@ -42,13 +47,14 @@ class TournamentController:
             self.disply_associate_player_menu(tournament_name, number_of_rounds)
             # self.tournament_players_list = self.creat_tournament_players(tournament_name, number_of_rounds)
 
-        self.prev_paired_player_list = []
-        current_round = "0"
+        # self.prev_paired_player_list = []
+        current_round = 0
         tournament_obj = Tournament(tournament_name, tournament_place, tournament_start_date, tournament_end_date,
                                     self.round_list, self.tournament_players_list, current_round, number_of_rounds)
         return tournament_obj
 
     def disply_associate_player_menu(self, tournament_name, number_of_rounds):
+        """ Method to show existing player or new player to add for tournament"""
         player_choice = input("1. Select Player from Existing Player's Data \n"
                               "2. Add New Player \n"
                               "Enter your choice: ")
@@ -59,6 +65,7 @@ class TournamentController:
             self.creat_tournament_players(tournament_name, number_of_rounds)
 
     def select_tournament(self):
+        """ Method to ask for the speicific tournament from user"""
         all_tournaments = self.data.get_all_tournament_data()
         print(fontstyle.apply("\nList of existing Tournaments:\n", "bold/UNDERLINE"))
         print(fontstyle.apply("NAME\tPLACE", "bold/UNDERLINE"))
@@ -68,6 +75,7 @@ class TournamentController:
         return selected_tournament
 
     def associate_player(self, tournament_name):
+        """ Method to associate player to tournament"""
         answer = "Y"
         while True:
             nid = input("Enter National Chess ID of Player: ")
@@ -82,6 +90,7 @@ class TournamentController:
         return self.tournament_players_list
 
     def creat_tournament_players(self, tournament_name, number_of_rounds=4):
+        """ Method to add new players """
         number_of_players = int(number_of_rounds) * 2
         print(f"Tournament must have at least {number_of_players} players!")
 
@@ -104,18 +113,19 @@ class TournamentController:
         return self.tournament_players_list
 
     def create_match_obj(self, player_score_list):
+        """ Method to create match object from player and score list"""
         player_obj_list = []
         match_obj_list = []
         temp_score_list = []
         # First create player's object list
-        for k in range(len(player_score_list)):
+        for k, item in enumerate(player_score_list):  #range(len(player_score_list)):
             player_obj = None
-            data_dict = self.data.get_player_by_code(player_score_list[k]["player_nid"])
+            data_dict = self.data.get_player_by_code(item["player_nid"])
             if data_dict:
                 player_obj = self.data.create_player_obj(data_dict)
                 # print(player_obj.national_chess_id)
                 player_obj_list.append(player_obj)
-                temp_score_list.append(player_score_list[k]["score"])
+                temp_score_list.append(item["score"])
             else:
                 return None
 
@@ -133,16 +143,18 @@ class TournamentController:
         return match_obj_list
 
     def add_new_score_to_prev(self, paired_player_list, input_player_score_list):
+        """ Method to update score of each round to previous one"""
         new_list = []
 
-        for i in range(len(paired_player_list)):
+        for i, item in enumerate(paired_player_list):  # range(len(paired_player_list)):
             temp_dict = {}
-            temp_dict["player_nid"] = paired_player_list[i]["player_nid"]
-            temp_dict["score"] = float(paired_player_list[i]["score"]) + float(input_player_score_list[i]["score"])
+            temp_dict["player_nid"] = item["player_nid"]
+            temp_dict["score"] = float(item["score"]) + float(input_player_score_list[i]["score"])
             new_list.append(temp_dict)
         return new_list
 
     def update_prev_paired_players(self, paired_player_list):
+        """ Method to update previously paried players list"""
         temp_list = []
         for i in range(0, len(paired_player_list), 2):
             player1 = paired_player_list[i][0]
@@ -152,6 +164,7 @@ class TournamentController:
         return temp_list
 
     def start_round(self, tournament_name, round_number):
+        """ Method to start each round"""
 
         # Get round_list from json file if empty
         if not self.round_list:
@@ -219,6 +232,7 @@ class TournamentController:
         self.data.update_tournament_rounds(tournament_name, self.round_list, current_round)
 
     def show_results(self, tournament_name: str):
+        """ Method to show result of the finished tournament"""
         print(fontstyle.apply(f"FINAL RESULTS OF Tournament {tournament_name}:\n", "bold/UNDERLINE"))
         print(fontstyle.apply("NAME\t\tNATIONAL CHESS ID\tSCORE", "bold/UNDERLINE"))
         tour_players = self.data.get_tournament_players(tournament_name)

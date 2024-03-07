@@ -1,4 +1,4 @@
-# from Models.data import Data
+""" Main file to start execution of the program"""
 from Models.filedata import FileData
 from Views.view import View
 from Controller.maincontroller import MainController
@@ -8,6 +8,8 @@ from Controller.reportcontroller import ReportController
 
 
 def main():
+    """ Main function to start execution"""
+
     view_obj = View()
     data_obj = FileData()
     player_contr_obj = PlayerController(view_obj, data_obj)

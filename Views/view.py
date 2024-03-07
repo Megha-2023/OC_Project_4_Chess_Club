@@ -1,9 +1,12 @@
+""" Module containing view class"""
 import fontstyle
 
 
 class View:
+    """ Class to interface with user"""
 
     def main_menu(self):
+        """ Main menu"""
         print(fontstyle.apply("*** MAIN MENU ***", "bold/Italic/UNDERLINE/BLUE_BG"))
         choice = input("1 : Tournament's Menu \n"
                        "2 : Report Menu \n"
@@ -12,6 +15,7 @@ class View:
         return choice
 
     def tournament_menu(self):
+        """ Tournamet menu"""
         print(fontstyle.apply("*** TOURNAMENT MENU ***", "bold/Italic/GREEN_BG"))
         choice = input("1 : Create New Tournament \n"
                        "2 : Check Existing Tournaments \n"
@@ -20,6 +24,7 @@ class View:
         return choice
 
     def report_menu(self):
+        """ Report menu"""
         print(fontstyle.apply("\n*** REPORT MENU ***", "bold/Italic/YELLOW_BG"))
         choice = input("1 : Show All Players \n"
                        "2 : Show All Tournaments \n"
@@ -31,6 +36,7 @@ class View:
         return choice
 
     def selected_tournament_submenu(self, tournament_name: str, players: bool, round_number: int):
+        """ Submenu for selected tournament"""
         if players:
             str_player = "2 : Show Selected Players"
         else:
@@ -51,18 +57,23 @@ class View:
         return choice
 
     def prompt_for_tournament(self):
+        """ Ask for tournament data"""
         return input("\nEnter Tournament details in the given format: Name, Place, Number_of_Rounds: ")
 
     def prompt_select_tournament(self):
+        """ Ask for tournament"""
         return input("\nEnter Tournament Name: ")
 
     def prompt_for_player(self):
+        """ Ask for new players data"""
         return input("\nEnter Player's details in the given format: National_Id, LastName, FirstName: ")
 
     def display_detailed_list(self, data_dict):
+        """ display given dict"""
         print(data_dict)
 
     def ask_for_score(self, player_list):
+        """ Ask for socre of each player"""
         new_player_list = []
         for i in range(len(player_list)):
             temp_dict = {}

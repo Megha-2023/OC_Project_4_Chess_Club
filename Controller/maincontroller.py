@@ -1,7 +1,10 @@
+""" Module containing MainController class for navigating through menus"""
 import fontstyle
 
 
 class MainController:
+    """ Class contolling all menus' navigations"""
+
     def __init__(self, view, tournament_contr_obj, data, player_controller_obj, report_contr_obj):
         self.view = view
         self.tournament_contr_obj = tournament_contr_obj
@@ -10,6 +13,7 @@ class MainController:
         self.report_contr_obj = report_contr_obj
 
     def display_main_menu(self):
+        """ Method to display main menu of the program"""
         print(fontstyle.apply("!!! Welcome to CASTLE CHESS CLUB !!!", "bold/Italic/BLUE_BG"))
         main_choice = 0
         while main_choice != '0':
@@ -23,6 +27,7 @@ class MainController:
                     exit(0)
 
     def display_tournament_menu(self):
+        """ Method to display Tournament related menu"""
         print("You are now in Tournament Menu \n")
         user_choice = 0
         while user_choice != '0':
@@ -37,6 +42,7 @@ class MainController:
                     self.display_main_menu()
 
     def display_tournament_submenu(self, tournament_name: str):
+        """ Method to display menu specific to selected Tournament"""
         submenu_choice = 0
         while submenu_choice != '0':
             selected_players = self.data.get_tournament_players(tournament_name)
@@ -46,15 +52,13 @@ class MainController:
                 players_status = True
             data_dict = self.data.get_selected_tournament(tournament_name)
             number_of_rounds = int(data_dict["number_of_rounds"])
-            if data_dict["current_round"] == "0":
+            if int(data_dict["current_round"]) == 0:
                 round_number = 1
             else:
                 round_number = int(data_dict["current_round"]+1)
             submenu_choice = self.view.selected_tournament_submenu(tournament_name, players_status, round_number)
             match submenu_choice:
                 case '1':
-                    # data_dict = self.data.get_selected_tournament(tournament_name)
-                    # data_dict = self.data.serialize_obj(tournament_obj)
                     self.view.display_detailed_list(data_dict)
                 case '2':
                     if players_status:
@@ -64,11 +68,11 @@ class MainController:
                         self.tournament_contr_obj.disply_associate_player_menu(tournament_name, number_of_rounds)
                 case '3':
                     answer = "Y"
+                    print(data_dict["current_round"])
                     while round_number <= number_of_rounds:
                         self.tournament_contr_obj.start_round(tournament_name, round_number)
-                        # print(f"Round{round_number} is updated Successfull! \n")
                         answer = input("\n Want to play next round?(Y/N) : ")
-                        if answer == "N" or answer == "n":
+                        if answer in ("N", "n"):
                             break
                         round_number += 1
                     if round_number > number_of_rounds:
@@ -79,12 +83,14 @@ class MainController:
                     self.tournament_contr_obj.show_results(tournament_name)
                 case '5':
                     self.data.delete_tournament(tournament_name)
-                    print(f"Deleted {tournament_name} Tournament")
+                    print(fontstyle.apply(f"\nDeleted {tournament_name} Tournament", "bold/UNDERLINE"))
+                    self.display_tournament_menu()
                 case _:
                     print("Please enter correct choice:")
                     self.display_tournament_menu()
 
     def display_report_menu(self):
+        """ Method to display menu for generating different reports"""
         print("*** Here you can generate the report from the menu\n")
         report_choice = 0
         while report_choice != '0':
