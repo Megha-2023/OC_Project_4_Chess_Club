@@ -35,14 +35,16 @@ class View:
                        "Enter the number of your choice: ")
         return choice
 
-    def selected_tournament_submenu(self, tournament_name: str, players: bool, round_number: int):
+    def selected_tournament_submenu(self, tournament_name: str, players: bool, round_number: int, total_rounds: int):
         """ Submenu for selected tournament"""
         if players:
             str_player = "2 : Show Selected Players"
         else:
             str_player = "2 : No Players added yet, Add Players for this Tournament"
-        if round_number != 1:
-            str_round = "3 : Play Round Number" + str(round_number)
+        if round_number <= total_rounds:
+            str_round = "3 : Play Round Number " + str(round_number)
+        elif round_number > total_rounds:
+            str_round = "3 : Tournament is Over!"
         else:
             str_round = "3 : Play First Round"
         print("\n")

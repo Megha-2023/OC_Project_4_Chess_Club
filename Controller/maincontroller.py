@@ -56,7 +56,7 @@ class MainController:
                 round_number = 1
             else:
                 round_number = int(data_dict["current_round"]+1)
-            submenu_choice = self.view.selected_tournament_submenu(tournament_name, players_status, round_number)
+            submenu_choice = self.view.selected_tournament_submenu(tournament_name, players_status, round_number, number_of_rounds)
             match submenu_choice:
                 case '1':
                     self.view.display_detailed_list(data_dict)
